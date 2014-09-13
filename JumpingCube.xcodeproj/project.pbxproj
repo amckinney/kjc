@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9F4C197219C4C0EB00264F54 /* JPCCube.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4C197119C4C0EB00264F54 /* JPCCube.m */; };
 		9F4C197519C4C5C100264F54 /* JPCPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4C197419C4C5C100264F54 /* JPCPlayer.m */; };
+		9F4C197D19C50B6500264F54 /* SKScene+TouchPriority.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4C197C19C50B6500264F54 /* SKScene+TouchPriority.m */; };
 		9F8DBA2119C4BCC800217836 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F8DBA2019C4BCC800217836 /* Foundation.framework */; };
 		9F8DBA2319C4BCC800217836 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F8DBA2219C4BCC800217836 /* CoreGraphics.framework */; };
 		9F8DBA2519C4BCC800217836 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F8DBA2419C4BCC800217836 /* UIKit.framework */; };
@@ -42,6 +43,8 @@
 		9F4C197119C4C0EB00264F54 /* JPCCube.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPCCube.m; sourceTree = "<group>"; };
 		9F4C197319C4C5C100264F54 /* JPCPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPCPlayer.h; sourceTree = "<group>"; };
 		9F4C197419C4C5C100264F54 /* JPCPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPCPlayer.m; sourceTree = "<group>"; };
+		9F4C197B19C50B6500264F54 /* SKScene+TouchPriority.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKScene+TouchPriority.h"; sourceTree = "<group>"; };
+		9F4C197C19C50B6500264F54 /* SKScene+TouchPriority.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKScene+TouchPriority.m"; sourceTree = "<group>"; };
 		9F8DBA1D19C4BCC800217836 /* JumpingCube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JumpingCube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F8DBA2019C4BCC800217836 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9F8DBA2219C4BCC800217836 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -91,6 +94,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9F4C197A19C50B5700264F54 /* Third Party */ = {
+			isa = PBXGroup;
+			children = (
+				9F4C197B19C50B6500264F54 /* SKScene+TouchPriority.h */,
+				9F4C197C19C50B6500264F54 /* SKScene+TouchPriority.m */,
+			);
+			name = "Third Party";
+			sourceTree = "<group>";
+		};
 		9F8DBA1419C4BCC800217836 = {
 			isa = PBXGroup;
 			children = (
@@ -125,6 +137,7 @@
 		9F8DBA2819C4BCC800217836 /* JumpingCube */ = {
 			isa = PBXGroup;
 			children = (
+				9F4C197A19C50B5700264F54 /* Third Party */,
 				9F8DBA3119C4BCC800217836 /* JPCAppDelegate.h */,
 				9F8DBA3219C4BCC800217836 /* JPCAppDelegate.m */,
 				9F8DBA3419C4BCC800217836 /* Main.storyboard */,
@@ -271,6 +284,7 @@
 				9F8DBA3C19C4BCC800217836 /* JPCMyScene.m in Sources */,
 				9F8DBA3319C4BCC800217836 /* JPCAppDelegate.m in Sources */,
 				9F4C197519C4C5C100264F54 /* JPCPlayer.m in Sources */,
+				9F4C197D19C50B6500264F54 /* SKScene+TouchPriority.m in Sources */,
 				9F4C197219C4C0EB00264F54 /* JPCCube.m in Sources */,
 				9F8DBA2F19C4BCC800217836 /* main.m in Sources */,
 				9F8DBA3919C4BCC800217836 /* JPCViewController.m in Sources */,

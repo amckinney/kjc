@@ -9,6 +9,7 @@
 #import "JPCMyScene.h"
 #import "JPCCube.h"
 #import "JPCPlayer.h"
+#import "SKScene+TouchPriority.h"
 @interface JPCMyScene ()
 @property (nonatomic, strong) SKNode *cubeLayer;
 @property (nonatomic, strong) NSMutableArray *cubes;
@@ -16,6 +17,7 @@
 @property (nonatomic, strong) JPCPlayer *player1;
 @property (nonatomic, strong) JPCPlayer *player2;
 @property (nonatomic, strong) SKLabelNode *currentPlayerLabel;
+@property (nonatomic, strong) SKLabelNode *playButton;
 @end
 
 @implementation JPCMyScene
@@ -23,6 +25,7 @@
     if (self = [super initWithSize:size]) {
         self.backgroundColor = [SKColor colorWithRed:250/256.0f green:248/256.0f blue:239/256.0f alpha:1.0f];
         _cubeLayer = [[SKNode alloc] init];
+        _cubeLayer.name = @"cube layer";
         [self addChild:_cubeLayer];
         _player1 = [[JPCPlayer alloc] init];
         _player1.playerColor = [UIColor colorWithRed:45/256.0f green:99/256.0f blue:127/256.0f alpha:1.0f];
@@ -31,10 +34,14 @@
         _currentPlayer = _player1;
         _currentPlayerLabel = [[SKLabelNode alloc] initWithFontNamed:@"DIN Alternate"];
         _currentPlayerLabel.fontColor = [UIColor darkGrayColor];
-        _currentPlayerLabel.position = CGPointMake(160, 440);
+        _currentPlayerLabel.position = CGPointMake(160, 420);
         [self addChild:_currentPlayerLabel];
         
-        [self newGame];
+        _playButton = [SKLabelNode labelNodeWithFontNamed:@"DIN Alternate"];
+        _playButton.position = CGPointMake(160, 380);
+        _playButton.fontColor = [UIColor darkGrayColor];
+        _playButton.text = @"Play Game";
+        [self addChild:_playButton];
     }
     return self;
 }
@@ -49,7 +56,7 @@
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
             JPCCube *currentCube = self.cubes[4*i+j];
-            currentCube.position = CGPointMake(47.5+j*75, 120+i*75);
+            currentCube.position = CGPointMake(47.5+j*75, 100+i*75);
             currentCube.neighborCount = [self neighbors:currentCube];
             [self.cubeLayer addChild:currentCube];
         }
@@ -59,7 +66,11 @@
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     for (UITouch *touch in touches) {
         CGPoint location = [touch locationInNode:self];
-        JPCCube *touchedCube = (JPCCube *)[self.cubeLayer nodeAtPoint:location];
+        if ([self nodeAtPoint:location] == self.playButton) {
+            [self newGame];
+            self.playButton.hidden = YES;
+        }
+        JPCCube  *touchedCube = (JPCCube *)[self nodeWithHighestPriority:(NSSet *)touches];
         if ([touchedCube respondsToSelector:@selector(currentOwner)]) {
             if (self.currentPlayer == touchedCube.currentOwner || touchedCube.currentOwner == nil) {
                 [self makeMove:touchedCube withPlayer:self.currentPlayer];
@@ -172,6 +183,7 @@
                     self.currentPlayerLabel.text = @"Gold wins!";
                     self.currentPlayerLabel.fontColor = [UIColor colorWithRed:224/256.0f green:158/256.0f blue:025/256.0f alpha:1.0f];
                 }
+                self.playButton.hidden = NO;
             }
         }]]];
         [self runAction:jumpAction];

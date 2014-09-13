@@ -17,12 +17,12 @@
     if (self) {
         self.color = color;
         self.size = size;
+        self.name = @"Cube";
         _score = 0;
         _cubeScoreLabel = [[SKLabelNode alloc] initWithFontNamed:@"DIN Alternate"];
         _cubeScoreLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
         _cubeScoreLabel.fontColor = [UIColor whiteColor];
         _cubeScoreLabel.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
-        _cubeScoreLabel.userInteractionEnabled = NO;
         [self addChild:_cubeScoreLabel];
     }
     return self;

@@ -21,6 +21,7 @@
         _cubeScoreLabel = [[SKLabelNode alloc] initWithFontNamed:@"DIN Alternate"];
         _cubeScoreLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
         _cubeScoreLabel.fontColor = [UIColor whiteColor];
+        _cubeScoreLabel.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
         [self addChild:_cubeScoreLabel];
     }
     return self;

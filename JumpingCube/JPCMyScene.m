@@ -25,9 +25,9 @@
         _cubeLayer = [[SKNode alloc] init];
         [self addChild:_cubeLayer];
         _player1 = [[JPCPlayer alloc] init];
-        _player1.playerColor = [UIColor blueColor];
+        _player1.playerColor = [UIColor colorWithRed:45/256.0f green:99/256.0f blue:127/256.0f alpha:1.0f];
         _player2 = [[JPCPlayer alloc] init];
-        _player2.playerColor = [UIColor yellowColor];
+        _player2.playerColor = [UIColor colorWithRed:224/256.0f green:158/256.0f blue:025/256.0f alpha:1.0f];
         _currentPlayer = _player1;
         _currentPlayerLabel = [[SKLabelNode alloc] initWithFontNamed:@"DIN Alternate"];
         _currentPlayerLabel.position = CGPointMake(160, 400);

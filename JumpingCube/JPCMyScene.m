@@ -21,7 +21,7 @@
 @implementation JPCMyScene
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
-        self.backgroundColor = [SKColor blackColor];
+        self.backgroundColor = [SKColor colorWithRed:250/256.0f green:248/256.0f blue:239/256.0f alpha:1.0f];
         _cubeLayer = [[SKNode alloc] init];
         [self addChild:_cubeLayer];
         _player1 = [[JPCPlayer alloc] init];
@@ -30,6 +30,7 @@
         _player2.playerColor = [UIColor colorWithRed:224/256.0f green:158/256.0f blue:025/256.0f alpha:1.0f];
         _currentPlayer = _player1;
         _currentPlayerLabel = [[SKLabelNode alloc] initWithFontNamed:@"DIN Alternate"];
+        _currentPlayerLabel.fontColor = [UIColor darkGrayColor];
         _currentPlayerLabel.position = CGPointMake(160, 400);
         [self addChild:_currentPlayerLabel];
         [self newGame];
@@ -41,7 +42,7 @@
     _currentPlayerLabel.text = @"Player1";
     self.cubes = [[NSMutableArray alloc] initWithCapacity:16];
     for (int i = 0; i< 16; i++) {
-        [self.cubes addObject:[[JPCCube alloc] initWithColor:[UIColor whiteColor] size:CGSizeMake(60, 60)]];
+        [self.cubes addObject:[[JPCCube alloc] initWithColor:[UIColor darkGrayColor] size:CGSizeMake(60, 60)]];
     }
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
@@ -81,7 +82,7 @@
     if ([self.cubes indexOfObject:cube] != NSNotFound) {
         [cube cubeActionWithPlayer:player];
         if (cube.neighborCount < cube.score) {
-            [self jump:cube];
+            [self jump:cube withPlayer:player];
         }
     }
 }
@@ -127,7 +128,7 @@
     return YES;
 }
 
--(void)jump:(JPCCube *)cube
+-(void)jump:(JPCCube *)cube withPlayer:(JPCPlayer *)player
 {
     if (![self winnerExists]) {
         int square = (int)[self.cubes indexOfObject:cube];
@@ -139,24 +140,26 @@
         for (int i = 0; i < 16; i++) {
             [indexInclusion addObject:@(i)];
         }
-        
-        int index = [self squareValueAtRow:(row - 1) col:col];
-        if ([indexInclusion containsObject:@(index)] && [self validRow:(row-1) col:col]) {
-            [self makeMove:[self.cubes objectAtIndex:index] withPlayer:self.currentPlayer];
-        }
-        index = [self squareValueAtRow:(row + 1) col:col];
-        if ([indexInclusion containsObject:@(index)] && [self validRow:(row+1) col:col]) {
-            [self makeMove:[self.cubes objectAtIndex:index] withPlayer:self.currentPlayer];
-         }
-        index = [self squareValueAtRow:row col:(col - 1)];
-        if ([indexInclusion containsObject:@(index)] && [self validRow:row col:(col-1)]) {
-            [self makeMove:[self.cubes objectAtIndex:index] withPlayer:self.currentPlayer];
-
-        }
-        index = [self squareValueAtRow:row col:col+1];
-        if ([indexInclusion containsObject:@(index)] && [self validRow:row col:(col+1)]) {
-            [self makeMove:[self.cubes objectAtIndex:index] withPlayer:self.currentPlayer];
-        }
+        SKAction *jumpAction = [SKAction sequence:@[[SKAction waitForDuration:0.1], [SKAction runBlock:^(void) {
+            int index = [self squareValueAtRow:(row - 1) col:col];
+            if ([indexInclusion containsObject:@(index)] && [self validRow:(row-1) col:col]) {
+                [self makeMove:[self.cubes objectAtIndex:index] withPlayer:player];
+            }
+            index = [self squareValueAtRow:(row + 1) col:col];
+            if ([indexInclusion containsObject:@(index)] && [self validRow:(row+1) col:col]) {
+                [self makeMove:[self.cubes objectAtIndex:index] withPlayer:player];
+            }
+            index = [self squareValueAtRow:row col:(col - 1)];
+            if ([indexInclusion containsObject:@(index)] && [self validRow:row col:(col-1)]) {
+                [self makeMove:[self.cubes objectAtIndex:index] withPlayer:player];
+                
+            }
+            index = [self squareValueAtRow:row col:col+1];
+            if ([indexInclusion containsObject:@(index)] && [self validRow:row col:(col+1)]) {
+                [self makeMove:[self.cubes objectAtIndex:index] withPlayer:player];
+            }
+        }]]];
+        [self runAction:jumpAction];
     }
 }
 

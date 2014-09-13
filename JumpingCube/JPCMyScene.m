@@ -56,7 +56,7 @@
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     for (UITouch *touch in touches) {
         CGPoint location = [touch locationInNode:self];
-        JPCCube *touchedCube = [self.cubeLayer nodeAtPoint:location];
+        JPCCube *touchedCube = (JPCCube *)[self.cubeLayer nodeAtPoint:location];
         if (self.currentPlayer == touchedCube.currentOwner || touchedCube.currentOwner == nil) {
             [touchedCube cubeActionWithPlayer:self.currentPlayer];
             [self switchPlayer];
@@ -65,7 +65,13 @@
 }
 
 -(void)switchPlayer {
-    
+    if (self.currentPlayer == self.player1) {
+        self.currentPlayer = self.player2;
+        self.currentPlayerLabel.text = @"Player 2";
+    } else {
+        self.currentPlayer = self.player1;
+        self.currentPlayerLabel.text = @"Player  1";
+    }
 }
 
 -(void)makeMove:(JPCCube *)cube withPlayer:(JPCPlayer *)player
@@ -101,7 +107,7 @@
 
 -(int)neighbors:(JPCCube *)cube
 {
-    int square = [self.cubes indexOfObject:cube];
+    int square = (int)[self.cubes indexOfObject:cube];
     int row = [self rowValue:square];
     int col = [self colValue:square];
     
@@ -128,7 +134,7 @@
 -(void)jump:(JPCCube *)cube
 {
     if (![self winnerExists]) {
-        int square = [self.cubes indexOfObject:cube];
+        int square = (int)[self.cubes indexOfObject:cube];
         int row = [self rowValue:square];
         int col = [self colValue:square];
         cube.score -= [self neighbors:cube];

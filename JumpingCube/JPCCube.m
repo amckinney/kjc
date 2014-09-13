@@ -18,7 +18,8 @@
 }
 
 -(void)cubeActionWithPlayer:(JPCPlayer *)player {
-    //change color if necessary
+    self.color = player.playerColor;
+    self.currentOwner = player;
     //increment value
 }
 @end

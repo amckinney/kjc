@@ -47,9 +47,9 @@
     NSMutableArray *moves = [self getPossibleMoves:cubesCopy player:player];
     
     int best = 0;
-    int value = NSIntegerMin;
-    int alpha = NSIntegerMin;
-    int beta = NSIntegerMax;
+    int value = (int)NSIntegerMin;
+    int alpha = (int)NSIntegerMin;
+    int beta = (int)NSIntegerMax;
     for (NSNumber *move in moves) {
         JPCCube *thisMove = [cubesCopy objectAtIndex:move.intValue];
         [thisMove cubeActionWithPlayer:player];
@@ -73,14 +73,14 @@
     if (depth == 0) {
         return [self heuristicValue:cubes player:player];
     } else if ([self winnerExists:cubes] && [self getWinner:cubes] != player) {
-        return NSIntegerMax;
+        return (int)NSIntegerMax;
     } else if ([self winnerExists:cubes] && [self getWinner:cubes] == player) {
-        return NSIntegerMin;
+        return (int)NSIntegerMin;
     }
     
     NSMutableArray *cubesCopy = [[NSMutableArray alloc] initWithArray:cubes copyItems:YES];
     NSMutableArray *moves = [self getPossibleMoves:cubesCopy player:player];
-    int value = NSIntegerMax;
+    int value = (int)NSIntegerMax;
     
     for (NSNumber *move in moves) {
         JPCCube *thisMove = [cubesCopy objectAtIndex:move.intValue];
@@ -102,14 +102,14 @@
     if (depth == 0) {
         return [self heuristicValue:cubes player:player];
     } else if ([self winnerExists:cubes] && [self getWinner:cubes] != player) {
-        return NSIntegerMin;
+        return (int)NSIntegerMin;
     } else if ([self winnerExists:cubes] && [self getWinner:cubes] == player) {
-        return NSIntegerMax;
+        return (int)NSIntegerMax;
     }
     
     NSMutableArray *cubesCopy = [[NSMutableArray alloc] initWithArray:cubes copyItems:YES];
     NSMutableArray *moves = [self getPossibleMoves:cubesCopy player:player];
-    int value = NSIntegerMin;
+    int value = (int)NSIntegerMin;
     
     for (NSNumber *move in moves) {
         JPCCube *thisMove = [cubesCopy objectAtIndex:move.intValue];

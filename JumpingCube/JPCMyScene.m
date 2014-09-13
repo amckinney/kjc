@@ -31,23 +31,25 @@
         _currentPlayer = _player1;
         _currentPlayerLabel = [[SKLabelNode alloc] initWithFontNamed:@"DIN Alternate"];
         _currentPlayerLabel.fontColor = [UIColor darkGrayColor];
-        _currentPlayerLabel.position = CGPointMake(160, 400);
+        _currentPlayerLabel.position = CGPointMake(160, 440);
         [self addChild:_currentPlayerLabel];
+        
         [self newGame];
     }
     return self;
 }
 
 -(void)newGame {
-    _currentPlayerLabel.text = @"Player1";
+    _currentPlayerLabel.fontColor = [UIColor colorWithRed:45/256.0f green:99/256.0f blue:127/256.0f alpha:1.0f];
+    _currentPlayerLabel.text = @"Blue's Move";
     self.cubes = [[NSMutableArray alloc] initWithCapacity:16];
     for (int i = 0; i< 16; i++) {
-        [self.cubes addObject:[[JPCCube alloc] initWithColor:[UIColor darkGrayColor] size:CGSizeMake(60, 60)]];
+        [self.cubes addObject:[[JPCCube alloc] initWithColor:[UIColor darkGrayColor] size:CGSizeMake(70, 70)]];
     }
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
             JPCCube *currentCube = self.cubes[4*i+j];
-            currentCube.position = CGPointMake(60+j*65, 120+i*65);
+            currentCube.position = CGPointMake(47.5+j*75, 120+i*75);
             currentCube.neighborCount = [self neighbors:currentCube];
             [self.cubeLayer addChild:currentCube];
         }
@@ -70,10 +72,13 @@
 -(void)switchPlayer {
     if (self.currentPlayer == self.player1) {
         self.currentPlayer = self.player2;
-        self.currentPlayerLabel.text = @"Player 2";
+        self.currentPlayerLabel.text = @"Gold's Move";
+        self.currentPlayerLabel.fontColor = [UIColor colorWithRed:224/256.0f green:158/256.0f blue:025/256.0f alpha:1.0f];
     } else {
         self.currentPlayer = self.player1;
-        self.currentPlayerLabel.text = @"Player  1";
+        self.currentPlayerLabel.text = @"Blue's Move";
+        self.currentPlayerLabel.fontColor = [UIColor colorWithRed:45/256.0f green:99/256.0f blue:127/256.0f alpha:1.0f];
+
     }
 }
 
@@ -157,6 +162,16 @@
             index = [self squareValueAtRow:row col:col+1];
             if ([indexInclusion containsObject:@(index)] && [self validRow:row col:(col+1)]) {
                 [self makeMove:[self.cubes objectAtIndex:index] withPlayer:player];
+            }
+        }], [SKAction runBlock:^(void) {
+            if ([self winnerExists]) {
+                if (self.currentPlayer != self.player1) {
+                    self.currentPlayerLabel.text = @"Blue wins!";
+                    self.currentPlayerLabel.fontColor = [UIColor colorWithRed:45/256.0f green:99/256.0f blue:127/256.0f alpha:1.0f];
+                } else {
+                    self.currentPlayerLabel.text = @"Gold wins!";
+                    self.currentPlayerLabel.fontColor = [UIColor colorWithRed:224/256.0f green:158/256.0f blue:025/256.0f alpha:1.0f];
+                }
             }
         }]]];
         [self runAction:jumpAction];

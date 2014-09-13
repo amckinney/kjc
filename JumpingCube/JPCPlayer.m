@@ -7,6 +7,7 @@
 //
 
 #import "JPCPlayer.h"
+#import "JPCCube.h"
 @implementation JPCPlayer
 
 - (NSMutableArray *)getPossibleMoves:(NSMutableArray *)cubes player:(JPCPlayer *)player

@@ -17,7 +17,7 @@
     return self;
 }
 
--(void)cubeAction {
+-(void)cubeActionWithPlayer:(JPCPlayer *)player {
     //change color if necessary
     //increment value
 }

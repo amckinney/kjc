@@ -9,5 +9,7 @@
 #import "JPCPlayer.h"
 @interface JPCCube : SKSpriteNode
 @property (nonatomic, weak) JPCPlayer *currentOwner;
--(void)cubeAction;
+@property (nonatomic, assign) int neighborCount;
+@property (nonatomic, assign) int score;
+-(void)cubeActionWithPlayer:(JPCPlayer *)player;
 @end

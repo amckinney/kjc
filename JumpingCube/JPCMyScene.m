@@ -38,6 +38,7 @@
         for (int j = 0; j < 4; j++) {
             JPCCube *currentCube = self.cubes[4*i+j];
             currentCube.position = CGPointMake(60+ j*65, 120+i*65);
+            currentCube.neighborCount = [self neighbors:currentCube];
             [self.cubeLayer addChild:currentCube];
         }
     }
@@ -48,7 +49,7 @@
         CGPoint location = [touch locationInNode:self];
         JPCCube *touchedCube = [self.cubeLayer nodeAtPoint:location];
         if (self.currentPlayer == touchedCube.currentOwner || touchedCube.currentOwner == nil) {
-            [touchedCube cubeAction];
+            [touchedCube cubeActionWithPlayer:self.currentPlayer];
             [self switchPlayer];
         }
     }
@@ -56,6 +57,79 @@
 
 -(void)switchPlayer {
     
+}
+
+-(void)makeMove:(JPCCube *)cube withPlayer:(JPCPlayer *)player
+{
+    if ([self cubeExists:cube]) {
+        [cube cubeActionWithPlayer:player];
+        if (cube.neighborCount > cube.score) {
+            [self jump:cube];
+        }
+    }
+}
+
+-(BOOL)cubeExists:(JPCCube *)cube
+{
+    // TODO:
+    return YES;
+}
+
+-(int)squareValueAtRow:(int)row col:(int)col
+{
+    return ((4 * (row - 1)) + (col - 1));
+}
+
+-(int)rowValue:(int)square
+{
+    return (1 + square / 4);
+}
+
+-(int)colValue:(int)square
+{
+    return (1 + square % 4);
+}
+
+-(int)neighbors:(JPCCube *)cube
+{
+    int square = [self.cubes indexOfObject:cube];
+    int row = [self rowValue:square];
+    int col = [self colValue:square];
+    
+    if ((row == 1 || row == 4) && (col == 1 || col == 4)) {
+        return 2;
+    } else if ((row == 1 || row == 4) || (col == 1 || col == 4)) {
+        return 3;
+    } else {
+        return 4;
+    }
+}
+
+-(BOOL)winnerExists
+{
+    JPCPlayer *currentPlayer = (JPCPlayer *)[[self.cubes objectAtIndex:0] currentOwner];
+    for(JPCCube *currentCube in self.cubes) {
+        if (currentCube.currentOwner != currentPlayer) {
+            return NO;
+        }
+    }
+    return YES;
+}
+
+-(void)jump:(JPCCube *)cube
+{
+    if (![self winnerExists]) {
+        int square = [self.cubes indexOfObject:cube];
+        int row = [self rowValue:square];
+        int col = [self colValue:square];
+        cube.score -= [self neighbors:cube];
+        
+        [self makeMove:[self.cubes objectAtIndex:[self squareValueAtRow:(row - 1) col:col]] withPlayer:self.currentPlayer];
+        [self makeMove:[self.cubes objectAtIndex:[self squareValueAtRow:(row + 1) col:col]] withPlayer:self.currentPlayer];
+        [self makeMove:[self.cubes objectAtIndex:[self squareValueAtRow:row col:(col - 1)]] withPlayer:self.currentPlayer];
+        [self makeMove:[self.cubes objectAtIndex:[self squareValueAtRow:row col:(col + 1)]] withPlayer:self.currentPlayer];
+        
+    }
 }
 
 -(void)update:(CFTimeInterval)currentTime {

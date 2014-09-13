@@ -16,4 +16,9 @@
     }
     return self;
 }
+
+-(void)cubeAction {
+    //change color if necessary
+    //increment value
+}
 @end

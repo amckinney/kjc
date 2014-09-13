@@ -6,5 +6,8 @@
 //
 //
 
+#import "JPCPlayer.h"
 @interface JPCCube : SKSpriteNode
+@property (nonatomic, weak) JPCPlayer *currentOwner;
+-(void)cubeAction;
 @end

@@ -20,6 +20,6 @@
 -(void)cubeActionWithPlayer:(JPCPlayer *)player {
     self.color = player.playerColor;
     self.currentOwner = player;
-    //increment value
+    self.score++;
 }
 @end

@@ -9,4 +9,5 @@
 @interface JPCPlayer : NSObject
 @property (nonatomic, strong) UIColor *playerColor;
 @property (nonatomic, assign) int score;
+@property (nonatomic, assign) BOOL AI;
 @end

@@ -46,7 +46,7 @@
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
             JPCCube *currentCube = self.cubes[4*i+j];
-            currentCube.position = CGPointMake(60+ j*65, 120+i*65);
+            currentCube.position = CGPointMake(60+j*65, 120+i*65);
             currentCube.neighborCount = [self neighbors:currentCube];
             [self.cubeLayer addChild:currentCube];
         }
@@ -58,7 +58,7 @@
         CGPoint location = [touch locationInNode:self];
         JPCCube *touchedCube = (JPCCube *)[self.cubeLayer nodeAtPoint:location];
         if (self.currentPlayer == touchedCube.currentOwner || touchedCube.currentOwner == nil) {
-            [touchedCube cubeActionWithPlayer:self.currentPlayer];
+            [self makeMove:touchedCube withPlayer:self.currentPlayer];
             [self switchPlayer];
         }
     }
@@ -76,18 +76,12 @@
 
 -(void)makeMove:(JPCCube *)cube withPlayer:(JPCPlayer *)player
 {
-    if ([self cubeExists:cube]) {
+    if ([self.cubes indexOfObject:cube] != NSNotFound) {
         [cube cubeActionWithPlayer:player];
         if (cube.neighborCount > cube.score) {
             [self jump:cube];
         }
     }
-}
-
--(BOOL)cubeExists:(JPCCube *)cube
-{
-    // TODO:
-    return YES;
 }
 
 -(int)squareValueAtRow:(int)row col:(int)col
@@ -143,7 +137,6 @@
         [self makeMove:[self.cubes objectAtIndex:[self squareValueAtRow:(row + 1) col:col]] withPlayer:self.currentPlayer];
         [self makeMove:[self.cubes objectAtIndex:[self squareValueAtRow:row col:(col - 1)]] withPlayer:self.currentPlayer];
         [self makeMove:[self.cubes objectAtIndex:[self squareValueAtRow:row col:(col + 1)]] withPlayer:self.currentPlayer];
-        
     }
 }
 

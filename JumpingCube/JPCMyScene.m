@@ -57,9 +57,11 @@
     for (UITouch *touch in touches) {
         CGPoint location = [touch locationInNode:self];
         JPCCube *touchedCube = (JPCCube *)[self.cubeLayer nodeAtPoint:location];
-        if (self.currentPlayer == touchedCube.currentOwner || touchedCube.currentOwner == nil) {
-            [self makeMove:touchedCube withPlayer:self.currentPlayer];
-            [self switchPlayer];
+        if ([touchedCube respondsToSelector:@selector(currentOwner)]) {
+            if (self.currentPlayer == touchedCube.currentOwner || touchedCube.currentOwner == nil) {
+                [self makeMove:touchedCube withPlayer:self.currentPlayer];
+                [self switchPlayer];
+            }
         }
     }
 }
@@ -78,7 +80,7 @@
 {
     if ([self.cubes indexOfObject:cube] != NSNotFound) {
         [cube cubeActionWithPlayer:player];
-        if (cube.neighborCount > cube.score) {
+        if (cube.neighborCount < cube.score) {
             [self jump:cube];
         }
     }
@@ -133,11 +135,33 @@
         int col = [self colValue:square];
         cube.score -= [self neighbors:cube];
         
-        [self makeMove:[self.cubes objectAtIndex:[self squareValueAtRow:(row - 1) col:col]] withPlayer:self.currentPlayer];
-        [self makeMove:[self.cubes objectAtIndex:[self squareValueAtRow:(row + 1) col:col]] withPlayer:self.currentPlayer];
-        [self makeMove:[self.cubes objectAtIndex:[self squareValueAtRow:row col:(col - 1)]] withPlayer:self.currentPlayer];
-        [self makeMove:[self.cubes objectAtIndex:[self squareValueAtRow:row col:(col + 1)]] withPlayer:self.currentPlayer];
+        NSMutableSet *indexInclusion = [[NSMutableSet alloc] initWithCapacity:16];
+        for (int i = 0; i < 16; i++) {
+            [indexInclusion addObject:@(i)];
+        }
+        
+        int index = [self squareValueAtRow:(row - 1) col:col];
+        if ([indexInclusion containsObject:@(index)] && [self validRow:(row-1) col:col]) {
+            [self makeMove:[self.cubes objectAtIndex:index] withPlayer:self.currentPlayer];
+        }
+        index = [self squareValueAtRow:(row + 1) col:col];
+        if ([indexInclusion containsObject:@(index)] && [self validRow:(row+1) col:col]) {
+            [self makeMove:[self.cubes objectAtIndex:index] withPlayer:self.currentPlayer];
+         }
+        index = [self squareValueAtRow:row col:(col - 1)];
+        if ([indexInclusion containsObject:@(index)] && [self validRow:row col:(col-1)]) {
+            [self makeMove:[self.cubes objectAtIndex:index] withPlayer:self.currentPlayer];
+
+        }
+        index = [self squareValueAtRow:row col:col+1];
+        if ([indexInclusion containsObject:@(index)] && [self validRow:row col:(col+1)]) {
+            [self makeMove:[self.cubes objectAtIndex:index] withPlayer:self.currentPlayer];
+        }
     }
+}
+
+-(BOOL)validRow:(int)row col:(int)col {
+    return (row <=  4 && row >= 1 && col <= 4 && col >= 1);
 }
 
 -(void)update:(CFTimeInterval)currentTime {

@@ -22,14 +22,23 @@
         _cubeScoreLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
         _cubeScoreLabel.fontColor = [UIColor whiteColor];
         _cubeScoreLabel.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
+        _cubeScoreLabel.userInteractionEnabled = NO;
         [self addChild:_cubeScoreLabel];
     }
     return self;
 }
 
 -(void)cubeActionWithPlayer:(JPCPlayer *)player {
+    SKAction *scaleAction = [SKAction sequence:@[[SKAction scaleTo:1.25 duration:0.2], [SKAction scaleTo:1.0f duration:0.2]]];;
+    [self runAction:scaleAction];
     self.color = player.playerColor;
     self.currentOwner = player;
     self.score++;
+}
+
+-(void)setScore:(int)score {
+    _score = score;
+    self.cubeScoreLabel.text = [NSString stringWithFormat:@"%d", self.score];
+
 }
 @end

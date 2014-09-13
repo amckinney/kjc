@@ -7,25 +7,33 @@
 //
 
 #import "JPCMyScene.h"
+#import "JPCCube.h"
+@interface JPCMyScene ()
+@property (nonatomic, strong) SKNode *cubeLayer;
+@property (nonatomic, strong) NSMutableArray *cubes;
+@end
+
 @implementation JPCMyScene
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
-        
-        self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
-        
-        SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-        
-        myLabel.text = @"Hello, World!";
-        myLabel.fontSize = 30;
-        myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
-                                       CGRectGetMidY(self.frame));
-        
-        [self addChild:myLabel];
+        self.backgroundColor = [SKColor blackColor];
+        _cubeLayer = [[SKNode alloc] init];
+        [self addChild:_cubeLayer];
     }
     return self;
 }
 
+-(void)newGame {
+    
+}
+
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    for (UITouch *touch in touches) {
+        CGPoint location = [touch locationInNode:self];
+        JPCCube *cube = [[JPCCube alloc] initWithColor:[UIColor whiteColor] size:CGSizeMake(50, 50)];
+        cube.position = location;
+        [self.cubeLayer addChild:cube];
+    }
 }
 
 -(void)update:(CFTimeInterval)currentTime {

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F4C197219C4C0EB00264F54 /* JPCCube.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4C197119C4C0EB00264F54 /* JPCCube.m */; };
+		9F4C197519C4C5C100264F54 /* JPCPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4C197419C4C5C100264F54 /* JPCPlayer.m */; };
 		9F8DBA2119C4BCC800217836 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F8DBA2019C4BCC800217836 /* Foundation.framework */; };
 		9F8DBA2319C4BCC800217836 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F8DBA2219C4BCC800217836 /* CoreGraphics.framework */; };
 		9F8DBA2519C4BCC800217836 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F8DBA2419C4BCC800217836 /* UIKit.framework */; };
@@ -36,6 +38,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9F4C197019C4C0EB00264F54 /* JPCCube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPCCube.h; sourceTree = "<group>"; };
+		9F4C197119C4C0EB00264F54 /* JPCCube.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPCCube.m; sourceTree = "<group>"; };
+		9F4C197319C4C5C100264F54 /* JPCPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPCPlayer.h; sourceTree = "<group>"; };
+		9F4C197419C4C5C100264F54 /* JPCPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPCPlayer.m; sourceTree = "<group>"; };
 		9F8DBA1D19C4BCC800217836 /* JumpingCube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JumpingCube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F8DBA2019C4BCC800217836 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9F8DBA2219C4BCC800217836 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -126,6 +132,10 @@
 				9F8DBA3819C4BCC800217836 /* JPCViewController.m */,
 				9F8DBA3A19C4BCC800217836 /* JPCMyScene.h */,
 				9F8DBA3B19C4BCC800217836 /* JPCMyScene.m */,
+				9F4C197019C4C0EB00264F54 /* JPCCube.h */,
+				9F4C197119C4C0EB00264F54 /* JPCCube.m */,
+				9F4C197319C4C5C100264F54 /* JPCPlayer.h */,
+				9F4C197419C4C5C100264F54 /* JPCPlayer.m */,
 				9F8DBA3F19C4BCC800217836 /* Images.xcassets */,
 				9F8DBA2919C4BCC800217836 /* Supporting Files */,
 			);
@@ -260,6 +270,8 @@
 			files = (
 				9F8DBA3C19C4BCC800217836 /* JPCMyScene.m in Sources */,
 				9F8DBA3319C4BCC800217836 /* JPCAppDelegate.m in Sources */,
+				9F4C197519C4C5C100264F54 /* JPCPlayer.m in Sources */,
+				9F4C197219C4C0EB00264F54 /* JPCCube.m in Sources */,
 				9F8DBA2F19C4BCC800217836 /* main.m in Sources */,
 				9F8DBA3919C4BCC800217836 /* JPCViewController.m in Sources */,
 			);
@@ -468,6 +480,7 @@
 				9F8DBA5819C4BCC800217836 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9F8DBA5919C4BCC800217836 /* Build configuration list for PBXNativeTarget "JumpingCubeTests" */ = {
 			isa = XCConfigurationList;
@@ -476,6 +489,7 @@
 				9F8DBA5B19C4BCC800217836 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

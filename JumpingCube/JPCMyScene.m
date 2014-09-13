@@ -57,9 +57,11 @@
     for (UITouch *touch in touches) {
         CGPoint location = [touch locationInNode:self];
         JPCCube *touchedCube = (JPCCube *)[self.cubeLayer nodeAtPoint:location];
-        if (self.currentPlayer == touchedCube.currentOwner || touchedCube.currentOwner == nil) {
-            [touchedCube cubeActionWithPlayer:self.currentPlayer];
-            [self switchPlayer];
+         if ([touchedCube respondsToSelector:@selector(currentOwner)]) {
+             if (self.currentPlayer == touchedCube.currentOwner || touchedCube.currentOwner == nil) {
+                 [touchedCube cubeActionWithPlayer:self.currentPlayer];
+                 [self switchPlayer];
+             }
         }
     }
 }
@@ -76,18 +78,12 @@
 
 -(void)makeMove:(JPCCube *)cube withPlayer:(JPCPlayer *)player
 {
-    if ([self cubeExists:cube]) {
+    if ([self.cubes indexOfObject:cube] != NSNotFound) {
         [cube cubeActionWithPlayer:player];
         if (cube.neighborCount > cube.score) {
             [self jump:cube];
         }
     }
-}
-
--(BOOL)cubeExists:(JPCCube *)cube
-{
-    // TODO:
-    return YES;
 }
 
 -(int)squareValueAtRow:(int)row col:(int)col

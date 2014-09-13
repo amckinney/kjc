@@ -11,14 +11,9 @@
 @implementation JPCViewController
 -(void)viewDidLoad {
     [super viewDidLoad];
-
     SKView * skView = (SKView *)self.view;
-    skView.showsFPS = YES;
-    skView.showsNodeCount = YES;
-    
     SKScene * scene = [JPCMyScene sceneWithSize:skView.bounds.size];
     scene.scaleMode = SKSceneScaleModeAspectFill;
-    
     [skView presentScene:scene];
 }
 
@@ -28,13 +23,9 @@
 
 -(NSUInteger)supportedInterfaceOrientations {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return UIInterfaceOrientationMaskAllButUpsideDown;
+        return UIInterfaceOrientationMaskPortrait;
     } else {
         return UIInterfaceOrientationMaskAll;
     }
-}
-
--(void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
 }
 @end

@@ -15,6 +15,7 @@
 @property (nonatomic, weak) JPCPlayer *currentPlayer;
 @property (nonatomic, strong) JPCPlayer *player1;
 @property (nonatomic, strong) JPCPlayer *player2;
+@property (nonatomic, strong) SKLabelNode *currentPlayerLabel;
 @end
 
 @implementation JPCMyScene
@@ -23,13 +24,21 @@
         self.backgroundColor = [SKColor blackColor];
         _cubeLayer = [[SKNode alloc] init];
         [self addChild:_cubeLayer];
-        
+        _player1 = [[JPCPlayer alloc] init];
+        _player1.playerColor = [UIColor blueColor];
+        _player2 = [[JPCPlayer alloc] init];
+        _player2.playerColor = [UIColor yellowColor];
+        _currentPlayer = _player1;
+        _currentPlayerLabel = [[SKLabelNode alloc] initWithFontNamed:@"DIN Alternate"];
+        _currentPlayerLabel.position = CGPointMake(160, 400);
+        [self addChild:_currentPlayerLabel];
         [self newGame];
     }
     return self;
 }
 
 -(void)newGame {
+    _currentPlayerLabel.text = @"Player1";
     self.cubes = [[NSMutableArray alloc] initWithCapacity:16];
     for (int i = 0; i< 16; i++) {
         [self.cubes addObject:[[JPCCube alloc] initWithColor:[UIColor whiteColor] size:CGSizeMake(60, 60)]];

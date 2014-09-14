@@ -37,8 +37,21 @@
     return nil;
 }
 
+-(NSMutableArray *)copyCubes:(NSMutableArray *)cubes {
+    NSMutableArray *currentCubes = [[NSMutableArray alloc] init];
+    for (JPCCube *cube in cubes) {
+        JPCCube *newCube = [[JPCCube alloc] initWithColor:cube.color size:cube.size];
+        newCube.currentOwner = cube.currentOwner;
+        newCube.score = cube.score;
+        newCube.neighborCount = cube.neighborCount;
+        newCube.indexInArray = cube.indexInArray;
+        [currentCubes addObject:newCube];
+    }
+    return currentCubes;
+}
+
 -(int)minmax:(NSMutableArray *)cubes player:(JPCPlayer *)player depth:(int)depth {
-    NSMutableArray *cubesCopy = [cubes mutableCopy];
+    NSMutableArray *cubesCopy = [self copyCubes:cubes];
     NSMutableArray *moves = [self getPossibleMoves:cubesCopy player:player];
     
     int best = 0;
@@ -73,7 +86,7 @@
         return (int)NSIntegerMin;
     }
     
-    NSMutableArray *cubesCopy = [cubes mutableCopy];
+    NSMutableArray *cubesCopy = [self copyCubes:cubes];
     NSMutableArray *moves = [self getPossibleMoves:cubesCopy player:self.opponentForAI];
     int value = (int)NSIntegerMax;
     
@@ -101,7 +114,7 @@
         return (int)NSIntegerMax;
     }
     
-    NSMutableArray *cubesCopy = [cubes mutableCopy];
+    NSMutableArray *cubesCopy = [self copyCubes:cubes];
     NSMutableArray *moves = [self getPossibleMoves:cubesCopy player:player];
     int value = (int)NSIntegerMin;
     

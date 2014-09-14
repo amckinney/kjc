@@ -119,7 +119,7 @@
                 [currentCubes addObject:newCube];
             }
             SKAction *AIAction = [SKAction sequence:@[[SKAction waitForDuration:1], [SKAction runBlock:^(void) {
-                int indexOfMove = [self.player2 minmax:currentCubes player:self.player2 depth:2];
+                int indexOfMove = [self.player2 minmax:currentCubes player:self.player2 depth:3];
                 JPCCube *actionCube = self.cubes[indexOfMove];
                 [self makeMove:actionCube withPlayer:self.player2];
                 [self switchPlayer];

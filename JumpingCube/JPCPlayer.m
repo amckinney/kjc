@@ -9,6 +9,7 @@
 #import "JPCPlayer.h"
 #import "JPCCube.h"
 @implementation JPCPlayer
+
 -(NSMutableArray *)getPossibleMoves:(NSMutableArray *)cubes player:(JPCPlayer *)player {
     NSMutableArray *moves = [NSMutableArray new];
     for (JPCCube *cube in cubes) {
@@ -58,8 +59,9 @@
     int value = (int)NSIntegerMin;
     int alpha = (int)NSIntegerMin;
     int beta = (int)NSIntegerMax;
+    int index = 0;
     for (JPCCube *cube in moves) {
-        int index = cube.indexInArray;
+        index = cube.indexInArray;
         JPCCube *copiedCube = cubesCopy[index];
         [copiedCube cubeActionWithPlayer:player];
         int result = [self minimizer:cubesCopy
@@ -67,10 +69,10 @@
                                depth:depth-1
                                alpha:alpha
                                 beta:beta];
-        cubesCopy = [[NSMutableArray alloc] initWithArray:cubes copyItems:YES];
+        cubesCopy = [self copyCubes:cubes];
         if (result > value) {
             value = result;
-            best = (int)[cubesCopy indexOfObject:cube];
+            best = index;
         }
         alpha = MAX(alpha, value);
     }
@@ -79,7 +81,7 @@
 
 -(int)minimizer:(NSMutableArray *)cubes player:(JPCPlayer *)player depth:(int)depth alpha:(int)alpha beta:(int)beta {
     if (depth == 0) {
-        return [self heuristicValue:cubes player:player];
+        return [self heuristicValue:cubes player:self.opponentForAI];
     } else if ([self winnerExists:cubes] && [self getWinner:cubes] != player) {
         return (int)NSIntegerMax;
     } else if ([self winnerExists:cubes] && [self getWinner:cubes] == player) {
@@ -96,7 +98,7 @@
         [copiedCube cubeActionWithPlayer:self.opponentForAI];
         int result = [self maximizer:cubesCopy player:player depth:depth-1 alpha:alpha beta:beta];
         value = MIN(result, value);
-        cubesCopy = [cubes mutableCopy];
+        cubesCopy = [self copyCubes:cubes];
         if (value <= alpha) {
             return value;
         }
@@ -124,7 +126,7 @@
         [copiedCube cubeActionWithPlayer:player];
         int result = [self minimizer:cubesCopy player:player depth:depth-1 alpha:alpha beta:beta];
         value = MAX(result, value);
-        cubesCopy = [cubes mutableCopy];
+        cubesCopy = [self copyCubes:cubes];
         if (value >= beta) {
             return value;
         }
@@ -138,17 +140,17 @@
     for (JPCCube *cube in cubes) {
         if (cube.currentOwner == player) {
             if (cube.score == cube.neighborCount) {
-                total += 6;
+                total += 4;
             } else {
-                total += 2;
+                total += 3;
             }
         } else if (cube.currentOwner == nil) {
             total += 1;
         } else {
             if (cube.score == cube.neighborCount) {
-                total -= 5;
+                total -= 3;
             } else {
-                total -= 1;
+                total -= 5;
             }
         }
     }

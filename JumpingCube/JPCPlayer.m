@@ -51,7 +51,9 @@
     int alpha = (int)NSIntegerMin;
     int beta = (int)NSIntegerMax;
     for (JPCCube *cube in moves) {
-        [cube cubeActionWithPlayer:player];
+        int index = cube.indexInArray;
+        JPCCube *copiedCube = cubesCopy[index];
+        [copiedCube cubeActionWithPlayer:player];
         int result = [self minimizer:cubesCopy
                               player:player
                                depth:depth - 1
@@ -82,8 +84,9 @@
     int value = (int)NSIntegerMax;
     
     for (JPCCube *cube in moves) {
-        [cube cubeActionWithPlayer:player];
-        
+        int index = cube.indexInArray;
+        JPCCube *copiedCube = cubesCopy[index];
+        [copiedCube cubeActionWithPlayer:player];
         int result = [self maximizer:cubesCopy player:player depth:depth - 1 alpha:alpha beta:beta];
         value = MIN(result, value);
         cubesCopy = [[NSMutableArray alloc] initWithArray:cubes copyItems:YES];
@@ -110,8 +113,9 @@
     int value = (int)NSIntegerMin;
     
     for (JPCCube *cube in moves) {
-        [cube cubeActionWithPlayer:player];
-        
+        int index = cube.indexInArray;
+        JPCCube *copiedCube = cubesCopy[index];
+        [copiedCube cubeActionWithPlayer:player];
         int result = [self minimizer:cubesCopy player:player depth:depth - 1 alpha:alpha beta:beta];
         value = MAX(result, value);
         cubesCopy = [[NSMutableArray alloc] initWithArray:cubes copyItems:YES];

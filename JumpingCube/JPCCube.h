@@ -11,5 +11,6 @@
 @property (nonatomic, weak) JPCPlayer *currentOwner;
 @property (nonatomic, assign) int neighborCount;
 @property (nonatomic, assign) int score;
+@property (nonatomic, assign) int indexInArray;
 -(void)cubeActionWithPlayer:(JPCPlayer *)player;
 @end

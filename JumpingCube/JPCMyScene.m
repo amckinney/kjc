@@ -59,7 +59,10 @@
     [self.cubeLayer removeAllChildren];
     self.cubes = [[NSMutableArray alloc] initWithCapacity:16];
     for (int i = 0; i< 16; i++) {
-        [self.cubes addObject:[[JPCCube alloc] initWithColor:[UIColor darkGrayColor] size:CGSizeMake(70, 70)]];
+        JPCCube *newCube = [[JPCCube alloc] initWithColor:[UIColor darkGrayColor] size:CGSizeMake(70, 70)];
+        newCube.indexInArray = i;
+        [self.cubes addObject:newCube];
+        
     }
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {

@@ -55,7 +55,7 @@
     NSMutableArray *cubesCopy = [self copyCubes:cubes];
     NSMutableArray *moves = [self getPossibleMoves:cubesCopy player:player];
     
-    int best = 0;
+    int best = [(JPCCube *)moves[0] indexInArray];
     int value = (int)NSIntegerMin;
     int alpha = (int)NSIntegerMin;
     int beta = (int)NSIntegerMax;
@@ -140,7 +140,7 @@
     for (JPCCube *cube in cubes) {
         if (cube.currentOwner == player) {
             if (cube.score == cube.neighborCount) {
-                total += 4;
+                total += 2;
             } else {
                 total += 3;
             }
@@ -148,9 +148,9 @@
             total += 1;
         } else {
             if (cube.score == cube.neighborCount) {
-                total -= 3;
+                total -= 2;
             } else {
-                total -= 5;
+                total -= 3;
             }
         }
     }

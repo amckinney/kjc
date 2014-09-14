@@ -2,7 +2,7 @@
 //  JPCCube.m
 //  JumpingCube
 //
-//  Created by Maneesh Goel on 9/13/14.
+//  Created by Maneesh Goel and Alex McKinney on 9/13/14.
 //
 //
 

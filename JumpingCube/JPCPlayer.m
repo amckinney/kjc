@@ -9,9 +9,7 @@
 #import "JPCPlayer.h"
 #import "JPCCube.h"
 @implementation JPCPlayer
-
-- (NSMutableArray *)getPossibleMoves:(NSMutableArray *)cubes player:(JPCPlayer *)player
-{
+-(NSMutableArray *)getPossibleMoves:(NSMutableArray *)cubes player:(JPCPlayer *)player {
     NSMutableArray *moves = [NSMutableArray new];
     for (JPCCube *cube in cubes) {
         if (cube.currentOwner == player || cube.currentOwner == nil) {
@@ -21,8 +19,7 @@
     return moves;
 }
 
-- (BOOL)winnerExists:(NSMutableArray *)cubes
-{
+-(BOOL)winnerExists:(NSMutableArray *)cubes {
     JPCPlayer *currentPlayer = (JPCPlayer *)[[cubes objectAtIndex:0] currentOwner];
     for(JPCCube *currentCube in cubes) {
         if (currentCube.currentOwner != currentPlayer) {
@@ -32,8 +29,7 @@
     return YES;
 }
 
-- (JPCPlayer *)getWinner:(NSMutableArray *)cubes
-{
+-(JPCPlayer *)getWinner:(NSMutableArray *)cubes {
     if ([self winnerExists:cubes]) {
         JPCCube *cube = [cubes objectAtIndex:0];
         return cube.currentOwner;
@@ -41,9 +37,8 @@
     return nil;
 }
 
-- (int)minmax:(NSMutableArray *)cubes player:(JPCPlayer *)player depth:(int)depth
-{
-    NSMutableArray *cubesCopy = [[NSMutableArray alloc] initWithArray:cubes copyItems:YES];
+-(int)minmax:(NSMutableArray *)cubes player:(JPCPlayer *)player depth:(int)depth {
+    NSMutableArray *cubesCopy = [cubes mutableCopy];
     NSMutableArray *moves = [self getPossibleMoves:cubesCopy player:player];
     
     int best = 0;
@@ -69,8 +64,7 @@
     return best;
 }
 
-- (int)minimizer:(NSMutableArray *)cubes player:(JPCPlayer *)player depth:(int)depth alpha:(int)alpha beta:(int)beta
-{
+-(int)minimizer:(NSMutableArray *)cubes player:(JPCPlayer *)player depth:(int)depth alpha:(int)alpha beta:(int)beta {
     if (depth == 0) {
         return [self heuristicValue:cubes player:player];
     } else if ([self winnerExists:cubes] && [self getWinner:cubes] != player) {
@@ -79,7 +73,7 @@
         return (int)NSIntegerMin;
     }
     
-    NSMutableArray *cubesCopy = [[NSMutableArray alloc] initWithArray:cubes copyItems:YES];
+    NSMutableArray *cubesCopy = [cubes mutableCopy];
     NSMutableArray *moves = [self getPossibleMoves:cubesCopy player:player];
     int value = (int)NSIntegerMax;
     
@@ -98,8 +92,7 @@
     return value;
 }
 
-- (int)maximizer:(NSMutableArray *)cubes player:(JPCPlayer *)player depth:(int)depth alpha:(int)alpha beta:(int)beta
-{
+-(int)maximizer:(NSMutableArray *)cubes player:(JPCPlayer *)player depth:(int)depth alpha:(int)alpha beta:(int)beta {
     if (depth == 0) {
         return [self heuristicValue:cubes player:player];
     } else if ([self winnerExists:cubes] && [self getWinner:cubes] != player) {
@@ -108,7 +101,7 @@
         return (int)NSIntegerMax;
     }
     
-    NSMutableArray *cubesCopy = [[NSMutableArray alloc] initWithArray:cubes copyItems:YES];
+    NSMutableArray *cubesCopy = [cubes mutableCopy];
     NSMutableArray *moves = [self getPossibleMoves:cubesCopy player:player];
     int value = (int)NSIntegerMin;
     
@@ -127,8 +120,7 @@
     return value;
 }
 
-- (int)heuristicValue:(NSMutableArray *)cubes player:(JPCPlayer *)player
-{
+-(int)heuristicValue:(NSMutableArray *)cubes player:(JPCPlayer *)player {
     int total = 0;
     for (JPCCube *cube in cubes) {
         if (cube.currentOwner == player) {

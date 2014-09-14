@@ -41,4 +41,8 @@
     self.cubeScoreLabel.text = [NSString stringWithFormat:@"%d", self.score];
 
 }
+
+-(NSString *)description {
+    return [NSString stringWithFormat:@"cube index: %d, score: %d", self.indexInArray, self.score];
+}
 @end

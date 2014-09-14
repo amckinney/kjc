@@ -87,6 +87,7 @@
             }
             if ([self nodeAtPoint:location] == self.playButtonAI) {
                 self.player2.AI = YES;
+                self.player2.opponentForAI = self.player1;
                 [self newGame];
                 self.playButtonH2H.hidden = YES;
                 self.playButtonAI.hidden = YES;
@@ -108,9 +109,17 @@
         self.currentPlayerLabel.text = @"Gold's Move";
         self.currentPlayerLabel.fontColor = [UIColor colorWithRed:224/256.0f green:158/256.0f blue:025/256.0f alpha:1.0f];
         if (self.player2.AI) {
-            
+            NSMutableArray *currentCubes = [[NSMutableArray alloc] initWithCapacity:16];
+            for (JPCCube *cube in self.cubes) {
+                JPCCube *newCube = [[JPCCube alloc] initWithColor:cube.color size:cube.size];
+                newCube.currentOwner = cube.currentOwner;
+                newCube.score = cube.score;
+                newCube.neighborCount = cube.neighborCount;
+                newCube.indexInArray = cube.indexInArray;
+                [currentCubes addObject:newCube];
+            }
             SKAction *AIAction = [SKAction sequence:@[[SKAction waitForDuration:1], [SKAction runBlock:^(void) {
-                int indexOfMove = [self.player2 minmax:self.cubes player:self.player2 depth:5];
+                int indexOfMove = [self.player2 minmax:currentCubes player:self.player2 depth:2];
                 JPCCube *actionCube = self.cubes[indexOfMove];
                 [self makeMove:actionCube withPlayer:self.player2];
                 [self switchPlayer];

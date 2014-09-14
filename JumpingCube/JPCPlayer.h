@@ -9,5 +9,6 @@
 @property (nonatomic, strong) UIColor *playerColor;
 @property (nonatomic, assign) int score;
 @property (nonatomic, assign) BOOL AI;
+@property (nonatomic, weak) JPCPlayer *opponentForAI;
 - (int)minmax:(NSMutableArray *)cubes player:(JPCPlayer *)player depth:(int)depth;
 @end

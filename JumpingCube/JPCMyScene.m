@@ -10,9 +10,9 @@
 #import "JPCCube.h"
 #import "JPCPlayer.h"
 #import "SKScene+TouchPriority.h"
+#import "JPCMyScene+CubeHelpers.h"
 @interface JPCMyScene ()
 @property (nonatomic, strong) SKNode *cubeLayer;
-@property (nonatomic, strong) NSMutableArray *cubes;
 @property (nonatomic, weak) JPCPlayer *currentPlayer;
 @property (nonatomic, strong) JPCPlayer *player1;
 @property (nonatomic, strong) JPCPlayer *player2;
@@ -53,6 +53,8 @@
     return self;
 }
 
+#pragma mark -
+#pragma mark Game Management
 -(void)newGame {
     _currentPlayerLabel.fontColor = [UIColor colorWithRed:45/256.0f green:99/256.0f blue:127/256.0f alpha:1.0f];
     _currentPlayerLabel.text = @"Blue's Move";
@@ -72,37 +74,11 @@
             [self.cubeLayer addChild:currentCube];
         }
     }
+    self.currentPlayer = self.player1;
 }
 
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    if (!(self.player2.AI && self.currentPlayer == self.player2)) {
-        for (UITouch *touch in touches) {
-            CGPoint location = [touch locationInNode:self];
-            if ([self nodeAtPoint:location] == self.playButtonH2H) {
-                self.player2.AI = NO;
-                [self newGame];
-                self.playButtonH2H.hidden = YES;
-                self.playButtonAI.hidden = YES;
-                return;
-            }
-            if ([self nodeAtPoint:location] == self.playButtonAI) {
-                self.player2.AI = YES;
-                self.player2.opponentForAI = self.player1;
-                [self newGame];
-                self.playButtonH2H.hidden = YES;
-                self.playButtonAI.hidden = YES;
-            }
-            JPCCube  *touchedCube = (JPCCube *)[self nodeWithHighestPriority:(NSSet *)touches];
-            if ([touchedCube respondsToSelector:@selector(currentOwner)]) {
-                if (self.currentPlayer == touchedCube.currentOwner || touchedCube.currentOwner == nil) {
-                    [self makeMove:touchedCube withPlayer:self.currentPlayer];
-                    [self switchPlayer];
-                }
-            }
-        }
-    }
-}
-
+#pragma mark -
+#pragma mark Turn Management
 -(void)switchPlayer {
     if (self.currentPlayer == self.player1) {
         self.currentPlayer = self.player2;
@@ -134,6 +110,39 @@
     }
 }
 
+#pragma mark -
+#pragma mark Touch Events
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    if (!(self.player2.AI && self.currentPlayer == self.player2)) {
+        for (UITouch *touch in touches) {
+            CGPoint location = [touch locationInNode:self];
+            if ([self nodeAtPoint:location] == self.playButtonH2H) {
+                self.player2.AI = NO;
+                [self newGame];
+                self.playButtonH2H.hidden = YES;
+                self.playButtonAI.hidden = YES;
+                return;
+            }
+            if ([self nodeAtPoint:location] == self.playButtonAI) {
+                self.player2.AI = YES;
+                self.player2.opponentForAI = self.player1;
+                [self newGame];
+                self.playButtonH2H.hidden = YES;
+                self.playButtonAI.hidden = YES;
+            }
+            JPCCube  *touchedCube = (JPCCube *)[self nodeWithHighestPriority:(NSSet *)touches];
+            if ([touchedCube respondsToSelector:@selector(currentOwner)]) {
+                if (self.currentPlayer == touchedCube.currentOwner || touchedCube.currentOwner == nil) {
+                    [self makeMove:touchedCube withPlayer:self.currentPlayer];
+                    [self switchPlayer];
+                }
+            }
+        }
+    }
+}
+
+#pragma mark -
+#pragma mark Moves
 -(void)makeMove:(JPCCube *)cube withPlayer:(JPCPlayer *)player
 {
     if ([self.cubes indexOfObject:cube] != NSNotFound) {
@@ -142,47 +151,6 @@
             [self jump:cube withPlayer:player];
         }
     }
-}
-
--(int)squareValueAtRow:(int)row col:(int)col
-{
-    return ((4 * (row - 1)) + (col - 1));
-}
-
--(int)rowValue:(int)square
-{
-    return (1 + square / 4);
-}
-
--(int)colValue:(int)square
-{
-    return (1 + square % 4);
-}
-
--(int)neighbors:(JPCCube *)cube
-{
-    int square = (int)[self.cubes indexOfObject:cube];
-    int row = [self rowValue:square];
-    int col = [self colValue:square];
-    
-    if ((row == 1 || row == 4) && (col == 1 || col == 4)) {
-        return 2;
-    } else if ((row == 1 || row == 4) || (col == 1 || col == 4)) {
-        return 3;
-    } else {
-        return 4;
-    }
-}
-
--(BOOL)winnerExists
-{
-    JPCPlayer *currentPlayer = (JPCPlayer *)[[self.cubes objectAtIndex:0] currentOwner];
-    for(JPCCube *currentCube in self.cubes) {
-        if (currentCube.currentOwner != currentPlayer) {
-            return NO;
-        }
-    }
-    return YES;
 }
 
 -(void)jump:(JPCCube *)cube withPlayer:(JPCPlayer *)player
@@ -230,9 +198,5 @@
         }]]];
         [self runAction:jumpAction];
     }
-}
-
--(BOOL)validRow:(int)row col:(int)col {
-    return (row <=  4 && row >= 1 && col <= 4 && col >= 1);
 }
 @end

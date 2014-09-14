@@ -7,4 +7,5 @@
 //
 
 @interface JPCMyScene : SKScene
+@property (nonatomic, strong) NSMutableArray *cubes;
 @end

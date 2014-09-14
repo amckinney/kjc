@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F04BAAC19C614F6006A9904 /* JPCMyScene+CubeHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F04BAAB19C614F6006A9904 /* JPCMyScene+CubeHelpers.m */; };
 		9F4C197219C4C0EB00264F54 /* JPCCube.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4C197119C4C0EB00264F54 /* JPCCube.m */; };
 		9F4C197519C4C5C100264F54 /* JPCPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4C197419C4C5C100264F54 /* JPCPlayer.m */; };
 		9F4C197D19C50B6500264F54 /* SKScene+TouchPriority.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4C197C19C50B6500264F54 /* SKScene+TouchPriority.m */; };
@@ -39,6 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9F04BAAA19C614F6006A9904 /* JPCMyScene+CubeHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JPCMyScene+CubeHelpers.h"; sourceTree = "<group>"; };
+		9F04BAAB19C614F6006A9904 /* JPCMyScene+CubeHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JPCMyScene+CubeHelpers.m"; sourceTree = "<group>"; };
 		9F4C197019C4C0EB00264F54 /* JPCCube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPCCube.h; sourceTree = "<group>"; };
 		9F4C197119C4C0EB00264F54 /* JPCCube.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPCCube.m; sourceTree = "<group>"; };
 		9F4C197319C4C5C100264F54 /* JPCPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPCPlayer.h; sourceTree = "<group>"; };
@@ -145,6 +148,8 @@
 				9F8DBA3819C4BCC800217836 /* JPCViewController.m */,
 				9F8DBA3A19C4BCC800217836 /* JPCMyScene.h */,
 				9F8DBA3B19C4BCC800217836 /* JPCMyScene.m */,
+				9F04BAAA19C614F6006A9904 /* JPCMyScene+CubeHelpers.h */,
+				9F04BAAB19C614F6006A9904 /* JPCMyScene+CubeHelpers.m */,
 				9F4C197019C4C0EB00264F54 /* JPCCube.h */,
 				9F4C197119C4C0EB00264F54 /* JPCCube.m */,
 				9F4C197319C4C5C100264F54 /* JPCPlayer.h */,
@@ -282,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F8DBA3C19C4BCC800217836 /* JPCMyScene.m in Sources */,
+				9F04BAAC19C614F6006A9904 /* JPCMyScene+CubeHelpers.m in Sources */,
 				9F8DBA3319C4BCC800217836 /* JPCAppDelegate.m in Sources */,
 				9F4C197519C4C5C100264F54 /* JPCPlayer.m in Sources */,
 				9F4C197D19C50B6500264F54 /* SKScene+TouchPriority.m in Sources */,

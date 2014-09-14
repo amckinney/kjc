@@ -17,7 +17,8 @@
 @property (nonatomic, strong) JPCPlayer *player1;
 @property (nonatomic, strong) JPCPlayer *player2;
 @property (nonatomic, strong) SKLabelNode *currentPlayerLabel;
-@property (nonatomic, strong) SKLabelNode *playButton;
+@property (nonatomic, strong) SKLabelNode *playButtonH2H;
+@property (nonatomic, strong) SKLabelNode *playButtonAI;
 @end
 
 @implementation JPCMyScene
@@ -37,11 +38,17 @@
         _currentPlayerLabel.position = CGPointMake(160, 420);
         [self addChild:_currentPlayerLabel];
         
-        _playButton = [SKLabelNode labelNodeWithFontNamed:@"DIN Alternate"];
-        _playButton.position = CGPointMake(160, 380);
-        _playButton.fontColor = [UIColor darkGrayColor];
-        _playButton.text = @"Play Game";
-        [self addChild:_playButton];
+        _playButtonH2H = [SKLabelNode labelNodeWithFontNamed:@"DIN Alternate"];
+        _playButtonH2H.position = CGPointMake(80, 380);
+        _playButtonH2H.fontColor = [UIColor darkGrayColor];
+        _playButtonH2H.text = @"Play H2H";
+        [self addChild:_playButtonH2H];
+        
+        _playButtonAI = [SKLabelNode labelNodeWithFontNamed:@"DIN Alternate"];
+        _playButtonAI.position = CGPointMake(240, 380);
+        _playButtonAI.fontColor = [UIColor darkGrayColor];
+        _playButtonAI.text = @"Play AI";
+        [self addChild:_playButtonAI];
     }
     return self;
 }
@@ -66,9 +73,18 @@
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     for (UITouch *touch in touches) {
         CGPoint location = [touch locationInNode:self];
-        if ([self nodeAtPoint:location] == self.playButton) {
+        if ([self nodeAtPoint:location] == self.playButtonH2H) {
+            self.player2.AI = NO;
             [self newGame];
-            self.playButton.hidden = YES;
+            self.playButtonH2H.hidden = YES;
+            self.playButtonAI.hidden = YES;
+            return;
+        }
+        if ([self nodeAtPoint:location] == self.playButtonAI) {
+            self.player2.AI = YES;
+            [self newGame];
+            self.playButtonH2H.hidden = YES;
+            self.playButtonAI.hidden = YES;
         }
         JPCCube  *touchedCube = (JPCCube *)[self nodeWithHighestPriority:(NSSet *)touches];
         if ([touchedCube respondsToSelector:@selector(currentOwner)]) {
@@ -85,6 +101,12 @@
         self.currentPlayer = self.player2;
         self.currentPlayerLabel.text = @"Gold's Move";
         self.currentPlayerLabel.fontColor = [UIColor colorWithRed:224/256.0f green:158/256.0f blue:025/256.0f alpha:1.0f];
+        if (self.player2.AI) {
+            int indexOfMove = [self.player2 minmax:self.cubes player:self.player2 depth:5];
+            JPCCube *actionCube = self.cubes[indexOfMove];
+            [self makeMove:actionCube withPlayer:self.player2];
+            [self switchPlayer];
+        }
     } else {
         self.currentPlayer = self.player1;
         self.currentPlayerLabel.text = @"Blue's Move";
@@ -183,7 +205,8 @@
                     self.currentPlayerLabel.text = @"Gold wins!";
                     self.currentPlayerLabel.fontColor = [UIColor colorWithRed:224/256.0f green:158/256.0f blue:025/256.0f alpha:1.0f];
                 }
-                self.playButton.hidden = NO;
+                self.playButtonH2H.hidden = NO;
+                self.playButtonAI.hidden = NO;
             }
         }]]];
         [self runAction:jumpAction];

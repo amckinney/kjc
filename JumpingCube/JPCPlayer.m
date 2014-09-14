@@ -14,7 +14,7 @@
 {
     NSMutableArray *moves = [NSMutableArray new];
     for (JPCCube *cube in cubes) {
-        if (cube.currentOwner == player) {
+        if (cube.currentOwner == player || cube.currentOwner == nil) {
             [moves addObject:cube];
         }
     }
@@ -50,9 +50,8 @@
     int value = (int)NSIntegerMin;
     int alpha = (int)NSIntegerMin;
     int beta = (int)NSIntegerMax;
-    for (NSNumber *move in moves) {
-        JPCCube *thisMove = [cubesCopy objectAtIndex:move.intValue];
-        [thisMove cubeActionWithPlayer:player];
+    for (JPCCube *cube in moves) {
+        [cube cubeActionWithPlayer:player];
         int result = [self minimizer:cubesCopy
                               player:player
                                depth:depth - 1
@@ -61,7 +60,7 @@
         cubesCopy = [[NSMutableArray alloc] initWithArray:cubes copyItems:YES];
         if (result > value) {
             value = result;
-            best = move.intValue;
+            best = (int)[cubesCopy indexOfObject:cube];
         }
         alpha = MAX(alpha, value);
     }
@@ -82,9 +81,8 @@
     NSMutableArray *moves = [self getPossibleMoves:cubesCopy player:player];
     int value = (int)NSIntegerMax;
     
-    for (NSNumber *move in moves) {
-        JPCCube *thisMove = [cubesCopy objectAtIndex:move.intValue];
-        [thisMove cubeActionWithPlayer:player];
+    for (JPCCube *cube in moves) {
+        [cube cubeActionWithPlayer:player];
         
         int result = [self maximizer:cubesCopy player:player depth:depth - 1 alpha:alpha beta:beta];
         value = MIN(result, value);
@@ -111,9 +109,8 @@
     NSMutableArray *moves = [self getPossibleMoves:cubesCopy player:player];
     int value = (int)NSIntegerMin;
     
-    for (NSNumber *move in moves) {
-        JPCCube *thisMove = [cubesCopy objectAtIndex:move.intValue];
-        [thisMove cubeActionWithPlayer:player];
+    for (JPCCube *cube in moves) {
+        [cube cubeActionWithPlayer:player];
         
         int result = [self minimizer:cubesCopy player:player depth:depth - 1 alpha:alpha beta:beta];
         value = MAX(result, value);
@@ -142,7 +139,7 @@
             if (cube.score == cube.neighborCount) {
                 total -= 5;
             } else {
-                total -= 4;
+                total -= 1;
             }
         }
     }

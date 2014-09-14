@@ -56,6 +56,7 @@
 -(void)newGame {
     _currentPlayerLabel.fontColor = [UIColor colorWithRed:45/256.0f green:99/256.0f blue:127/256.0f alpha:1.0f];
     _currentPlayerLabel.text = @"Blue's Move";
+    [self.cubeLayer removeAllChildren];
     self.cubes = [[NSMutableArray alloc] initWithCapacity:16];
     for (int i = 0; i< 16; i++) {
         [self.cubes addObject:[[JPCCube alloc] initWithColor:[UIColor darkGrayColor] size:CGSizeMake(70, 70)]];
@@ -71,26 +72,28 @@
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    for (UITouch *touch in touches) {
-        CGPoint location = [touch locationInNode:self];
-        if ([self nodeAtPoint:location] == self.playButtonH2H) {
-            self.player2.AI = NO;
-            [self newGame];
-            self.playButtonH2H.hidden = YES;
-            self.playButtonAI.hidden = YES;
-            return;
-        }
-        if ([self nodeAtPoint:location] == self.playButtonAI) {
-            self.player2.AI = YES;
-            [self newGame];
-            self.playButtonH2H.hidden = YES;
-            self.playButtonAI.hidden = YES;
-        }
-        JPCCube  *touchedCube = (JPCCube *)[self nodeWithHighestPriority:(NSSet *)touches];
-        if ([touchedCube respondsToSelector:@selector(currentOwner)]) {
-            if (self.currentPlayer == touchedCube.currentOwner || touchedCube.currentOwner == nil) {
-                [self makeMove:touchedCube withPlayer:self.currentPlayer];
-                [self switchPlayer];
+    if (!(self.player2.AI && self.currentPlayer == self.player2)) {
+        for (UITouch *touch in touches) {
+            CGPoint location = [touch locationInNode:self];
+            if ([self nodeAtPoint:location] == self.playButtonH2H) {
+                self.player2.AI = NO;
+                [self newGame];
+                self.playButtonH2H.hidden = YES;
+                self.playButtonAI.hidden = YES;
+                return;
+            }
+            if ([self nodeAtPoint:location] == self.playButtonAI) {
+                self.player2.AI = YES;
+                [self newGame];
+                self.playButtonH2H.hidden = YES;
+                self.playButtonAI.hidden = YES;
+            }
+            JPCCube  *touchedCube = (JPCCube *)[self nodeWithHighestPriority:(NSSet *)touches];
+            if ([touchedCube respondsToSelector:@selector(currentOwner)]) {
+                if (self.currentPlayer == touchedCube.currentOwner || touchedCube.currentOwner == nil) {
+                    [self makeMove:touchedCube withPlayer:self.currentPlayer];
+                    [self switchPlayer];
+                }
             }
         }
     }
@@ -102,10 +105,14 @@
         self.currentPlayerLabel.text = @"Gold's Move";
         self.currentPlayerLabel.fontColor = [UIColor colorWithRed:224/256.0f green:158/256.0f blue:025/256.0f alpha:1.0f];
         if (self.player2.AI) {
-            int indexOfMove = [self.player2 minmax:self.cubes player:self.player2 depth:5];
-            JPCCube *actionCube = self.cubes[indexOfMove];
-            [self makeMove:actionCube withPlayer:self.player2];
-            [self switchPlayer];
+            
+            SKAction *AIAction = [SKAction sequence:@[[SKAction waitForDuration:1], [SKAction runBlock:^(void) {
+                int indexOfMove = [self.player2 minmax:self.cubes player:self.player2 depth:5];
+                JPCCube *actionCube = self.cubes[indexOfMove];
+                [self makeMove:actionCube withPlayer:self.player2];
+                [self switchPlayer];
+            }]]];
+            [self runAction:AIAction];
         }
     } else {
         self.currentPlayer = self.player1;
@@ -215,8 +222,5 @@
 
 -(BOOL)validRow:(int)row col:(int)col {
     return (row <=  4 && row >= 1 && col <= 4 && col >= 1);
-}
-
--(void)update:(CFTimeInterval)currentTime {
 }
 @end

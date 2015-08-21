@@ -1,7 +1,2 @@
-TODO
-
-- make AI work
-- sound effects
-- tutorial
-- gamecenter match setup
-- more effects around soon-to-cascade cubes
+# JumpingCubeiOS
+An iOS application based on the game, KJumpingCube
